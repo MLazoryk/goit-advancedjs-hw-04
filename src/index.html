@@ -8,12 +8,11 @@
     <!-- SimpleLightbox CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.2/dist/simple-lightbox.min.css" />
     
-    <!-- Твій CSS -->
-    <link rel="stylesheet" href="./src/css/styles.css" />
+    <!-- Note: CSS is in the same folder, so the path is just ./css/ -->
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <header class="header">
-      <!-- ВИПРАВЛЕНО: додано клас "form" -->
       <form class="form search-form" id="search-form">
         <input
           type="text"
@@ -27,7 +26,6 @@
     </header>
 
     <main class="main">
-      <!-- ВИПРАВЛЕНО: змінено div на ul для галереї -->
       <ul class="gallery" id="gallery"></ul>
 
       <p class="end-message" id="end-message" style="display: none;">
@@ -41,7 +39,7 @@
       <div class="loader" id="loader" style="display: none;"></div>
     </main>
 
-    <!-- ВИПРАВЛЕНО: змінено шлях скрипта на ./main.js згідно з вимогою тестів -->
+    <!-- Note: main.js is in the same folder, so the path is just ./main.js -->
     <script type="module" src="./main.js"></script>
   </body>
 </html>

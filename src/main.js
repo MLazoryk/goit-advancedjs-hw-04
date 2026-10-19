@@ -1,7 +1,8 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-import { getImagesByQuery } from './src/js/pixabay-api.js';
+// Note: Paths changed to ./js/ because main.js is inside src now
+import { getImagesByQuery } from './js/pixabay-api.js';
 import {
   createGallery,
   clearGallery,
@@ -11,7 +12,7 @@ import {
   hideLoadMoreButton,
   showEndMessage,
   hideEndMessage,
-} from './src/js/render-functions.js';
+} from './js/render-functions.js';
 
 const searchForm = document.querySelector('#search-form');
 const loadMoreBtn = document.querySelector('#load-more');
