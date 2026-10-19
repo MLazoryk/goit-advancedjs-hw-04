@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Search</title>
     
-    <!-- Added: SimpleLightbox CSS library (needed for the popup images) -->
+    <!-- SimpleLightbox CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.2/dist/simple-lightbox.min.css" />
     
-    <!-- Your CSS -->
+    <!-- Твій CSS -->
     <link rel="stylesheet" href="./src/css/styles.css" />
   </head>
   <body>
     <header class="header">
-      <form class="search-form" id="search-form">
+      <!-- ВИПРАВЛЕНО: додано клас "form" -->
+      <form class="form search-form" id="search-form">
         <input
           type="text"
           name="query"
@@ -26,9 +27,9 @@
     </header>
 
     <main class="main">
-      <div class="gallery" id="gallery"></div>
+      <!-- ВИПРАВЛЕНО: змінено div на ul для галереї -->
+      <ul class="gallery" id="gallery"></ul>
 
-      <!-- Added: The message that shows up at the end of the search results -->
       <p class="end-message" id="end-message" style="display: none;">
         We're sorry, but you've reached the end of search results.
       </p>
@@ -40,7 +41,7 @@
       <div class="loader" id="loader" style="display: none;"></div>
     </main>
 
-    <!-- Your JS -->
-    <script type="module" src="./src/main.js"></script>
+    <!-- ВИПРАВЛЕНО: змінено шлях скрипта на ./main.js згідно з вимогою тестів -->
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
