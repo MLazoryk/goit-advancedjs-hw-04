@@ -1,44 +1,37 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const galleryContainer = document.querySelector('#gallery');
-const loader = document.querySelector('#loader');
-const loadMoreBtn = document.querySelector('#load-more');
-
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
 
+const galleryContainer = document.querySelector('#gallery');
+const loader = document.querySelector('#loader');
+const loadMoreBtn = document.querySelector('#load-more');
+const endMessage = document.querySelector('#end-message');
+
 export function createGallery(images) {
   const markup = images
     .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => `
-        <li class="gallery-item">
-          <a class="gallery-link" href="${largeImageURL}">
-            <img
-              class="gallery-image"
-              src="${webformatURL}"
-              alt="${tags}"
-              loading="lazy"
-            />
-          </a>
-          <ul class="image-info">
-            <li><b>Likes:</b> ${likes}</li>
-            <li><b>Views:</b> ${views}</li>
-            <li><b>Comments:</b> ${comments}</li>
-            <li><b>Downloads:</b> ${downloads}</li>
-          </ul>
-        </li>
-      `
+      (image) => `
+    <li class="gallery-item">
+      <a class="gallery-link" href="${image.largeImageURL}">
+        <img
+          class="gallery-image"
+          src="${image.webformatURL}"
+          alt="${image.tags}"
+          loading="lazy"
+        />
+      </a>
+      <div class="info">
+        <p><b>Likes:</b> ${image.likes}</p>
+        <p><b>Views:</b> ${image.views}</p>
+        <p><b>Comments:</b> ${image.comments}</p>
+        <p><b>Downloads:</b> ${image.downloads}</p>
+      </div>
+    </li>
+  `
     )
     .join('');
 
@@ -48,20 +41,29 @@ export function createGallery(images) {
 
 export function clearGallery() {
   galleryContainer.innerHTML = '';
+  endMessage.style.display = 'none';
 }
 
 export function showLoader() {
-  loader.classList.add('visible');
+  loader.style.display = 'block';
 }
 
 export function hideLoader() {
-  loader.classList.remove('visible');
+  loader.style.display = 'none';
 }
 
 export function showLoadMoreButton() {
-  loadMoreBtn.classList.add('visible');
+  loadMoreBtn.style.display = 'block';
 }
 
 export function hideLoadMoreButton() {
-  loadMoreBtn.classList.remove('visible');
+  loadMoreBtn.style.display = 'none';
+}
+
+export function showEndMessage() {
+  endMessage.style.display = 'block';
+}
+
+export function hideEndMessage() {
+  endMessage.style.display = 'none';
 }

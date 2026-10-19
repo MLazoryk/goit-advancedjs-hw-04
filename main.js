@@ -1,7 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-import { getImagesByQuery } from './js/pixabay-api.js';
+import { getImagesByQuery } from './src/js/pixabay-api.js';
 import {
   createGallery,
   clearGallery,
@@ -9,47 +9,48 @@ import {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
-} from './js/render-functions.js';
+  showEndMessage,
+  hideEndMessage,
+} from './src/js/render-functions.js';
 
-const form = document.querySelector('#search-form');
+const searchForm = document.querySelector('#search-form');
 const loadMoreBtn = document.querySelector('#load-more');
 
-let searchQuery = '';
-let page = 1;
-const PER_PAGE = 15;
+let currentQuery = '';
+let currentPage = 1;
 let totalHits = 0;
 
-form.addEventListener('submit', onSearch);
-loadMoreBtn.addEventListener('click', onLoadMore);
-
-async function onSearch(event) {
+searchForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const query = event.currentTarget.elements.query.value.trim();
+  const form = event.currentTarget;
+  const query = form.elements.query.value.trim();
 
   if (!query) {
     iziToast.warning({
-      message: 'Please enter a search query.',
+      title: 'Warning',
+      message: 'Please enter a search query!',
       position: 'topRight',
     });
     return;
   }
 
-  searchQuery = query;
-  page = 1;
+  currentQuery = query;
+  currentPage = 1;
 
   clearGallery();
   hideLoadMoreButton();
+  hideEndMessage();
   showLoader();
 
   try {
-    const data = await getImagesByQuery(searchQuery, page);
+    const data = await getImagesByQuery(currentQuery, currentPage);
     totalHits = data.totalHits;
 
     if (data.hits.length === 0) {
       iziToast.error({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+        title: 'Error',
+        message: 'Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
       });
       return;
@@ -57,50 +58,47 @@ async function onSearch(event) {
 
     createGallery(data.hits);
 
-    if (data.hits.length < PER_PAGE || page * PER_PAGE >= totalHits) {
-      hideLoadMoreButton();
-      iziToast.info({
-        message:
-          "We're sorry, but you've reached the end of search results.",
-        position: 'topRight',
-      });
-    } else {
+    if (currentPage * 15 < totalHits) {
       showLoadMoreButton();
+    } else {
+      showEndMessage();
     }
   } catch (error) {
     iziToast.error({
-      message: 'Something went wrong. Please try again later.',
+      title: 'Error',
+      message: `Something went wrong: ${error.message}`,
       position: 'topRight',
     });
-    console.error(error);
   } finally {
     hideLoader();
   }
-}
+});
 
-async function onLoadMore() {
-  page += 1;
+loadMoreBtn.addEventListener('click', async () => {
+  currentPage += 1;
+
   hideLoadMoreButton();
   showLoader();
 
   try {
-    const data = await getImagesByQuery(searchQuery, page);
+    const data = await getImagesByQuery(currentQuery, currentPage);
     createGallery(data.hits);
 
-    const { height: cardHeight } = document
-      .querySelector('.gallery-item')
-      .getBoundingClientRect();
+    const firstCard = document.querySelector('.gallery-item');
+    if (firstCard) {
+      const cardHeight = firstCard.getBoundingClientRect().height;
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+    }
 
-    window.scrollBy({
-      top: cardHeight * 2,
-      behavior: 'smooth',
-    });
-
-    if (page * PER_PAGE >= data.totalHits) {
+    if (currentPage * 15 >= totalHits) {
       hideLoadMoreButton();
+      showEndMessage();
       iziToast.info({
-        message:
-          "We're sorry, but you've reached the end of search results.",
+        title: 'End of results',
+        message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
       });
     } else {
@@ -108,11 +106,11 @@ async function onLoadMore() {
     }
   } catch (error) {
     iziToast.error({
-      message: 'Something went wrong. Please try again later.',
+      title: 'Error',
+      message: `Something went wrong: ${error.message}`,
       position: 'topRight',
     });
-    console.error(error);
   } finally {
     hideLoader();
   }
-}
+});
