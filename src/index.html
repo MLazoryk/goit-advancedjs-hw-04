@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Search</title>
+    
+    <!-- SimpleLightbox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.2/dist/simple-lightbox.min.css" />
+    
+    <!-- Твій CSS (шлях виправлено для папки src) -->
+    <script type="module" crossorigin src="/goit-advancedjs-hw-04/assets/main-CIA8wit6.js"></script>
+    <link rel="stylesheet" crossorigin href="/goit-advancedjs-hw-04/assets/main-Cd7-5wrD.css">
+  </head>
+  <body>
+    <header class="header">
+      <!-- Додано клас "form" для тестів -->
+      <form class="form search-form" id="search-form">
+        <input
+          type="text"
+          name="query"
+          class="search-input"
+          placeholder="Search images..."
+          autocomplete="off"
+        />
+        <button type="submit" class="search-btn">Search</button>
+      </form>
+    </header>
+
+    <main class="main">
+      <!-- Змінено на ul class="gallery" для тестів -->
+      <ul class="gallery" id="gallery"></ul>
+
+      <p class="end-message" id="end-message" style="display: none;">
+        We're sorry, but you've reached the end of search results.
+      </p>
+
+      <button type="button" class="load-more-btn" id="load-more" style="display: none;">
+        Load more
+      </button>
+
+      <div class="loader" id="loader" style="display: none;"></div>
+    </main>
+
+    <!-- Твій JS (шлях виправлено для папки src) -->
+  </body>
+</html>
